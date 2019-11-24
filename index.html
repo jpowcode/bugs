@@ -1,0 +1,27 @@
+<head>
+  <script>
+    function iterate()
+{
+    world = doSimulationStep(world);
+    redraw();
+}
+</script>
+</head>
+</body>
+<div>
+  Generating Caves With Cellular Automata<br>
+    <p style="font-size:12px">Based on
+        <a href='http://twitter.com/McFunkypants'>@McFunkypants</a>' Random World Generator</p><br>
+    <form>
+  <input type='button' onClick='recreate(this.form)' value='New World'>
+      <input type='button' onClick='iterate()' value='doSimulationStep()'>
+      <input type='button' onClick='placeTreasure()' value='placeTreasure()'>
+      <br>
+      Birth Limit: <input type="number" name="birthLimit" min="1" max="6" value="4">
+          Death Limit: <input type="number" name="deathLimit" min="1" max="6" value="3"><br>
+          Initial Chance: <input type="number" name="initialChance" min="0" max="1" step="0.1" value="0.4">
+          Number Of Steps: <input type="number" name="numSteps" min="0" max="6" value="2"></form><br><br>
+</div>
+
+<div><canvas id="gameCanvas"></canvas></div>
+</body>
