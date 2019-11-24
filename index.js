@@ -1,18 +1,6 @@
 // Import stylesheets
 import './style.css';
 
-// Write Javascript code!
-
-// Cave Generator With Cellular Automata
-// Gamedevtuts+ Tutorial Code
-// Code partly by Michael Cook - @mtrc on Twitter
-// With thanks to Christer Kaitilia - @mcfunkypants!
-// Read the full tutorial:
-// http://gamedev.tutsplus.com/tutorials/implementation/cave-levels-cellular-automata
-
-// Permission is granted to use this source in any
-// way you like, commercial or otherwise. Enjoy!
-
 // the world grid: a 2d array of tiles
 var world = [[]];
 
@@ -230,4 +218,6 @@ if (typeof console == "undefined") var console = { log: function() {} };
 // start running immediately
 onload();
 
+// export all function names to the global scope
 window.iterate = iterate;
+window.recreate = recreate;
