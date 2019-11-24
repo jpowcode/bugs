@@ -15,7 +15,8 @@ var tileHeight = 8;
 /*
 Variables we can use to tweak our demo!
 */
-var chanceToStartAlive = 0.4;
+var initspec1 = 0.2;
+var initspec2 = 0.1;
 var deathLimit = 3;
 var birthLimit = 4;
 var numberOfSteps = 2;
@@ -33,6 +34,36 @@ function onload()
   redraw();
 }
 
+function generateMap()
+{
+    var map = [[]];
+    //And randomly scatter solid blocks
+    initialiseMap(map);
+
+    return map;
+}
+
+function initialiseMap(map)
+{
+  for (var x=0; x < worldWidth; x++)
+    map[x] = [];
+  
+  for (var x=0; x < worldWidth; x++)
+  {
+    for (var y=0; y < worldHeight; y++)
+    {
+      var rand_num = Math.random()
+      if (rand_num < initspec1)
+        {map[x][y] = 1;}
+      else if (rand_num > initspec1 && rand_num < initspec1+initspec2)
+        {map[x][y] = 2;}
+      else 
+        {map[x][y] = 0;}
+    }
+  }
+  return map;
+}
+
 //This is called whenever you press the 'doSimulationStep' button
 function iterate()
 {
@@ -46,54 +77,14 @@ function recreate(form)
 {
   birthLimit = form.birthLimit.value;
   deathLimit = form.deathLimit.value;
-  chanceToStartAlive = form.initialChance.value;
+  initspec1 = form.initspec1.value;
+  initspec2 = form.initspec2.value;
   numberOfSteps = form.numSteps.value;
     
   world = generateMap();
   redraw();
 }
 
-function generateMap()
-{
-    //So, first we make the map
-    var map = [[]];
-    //And randomly scatter solid blocks
-    initialiseMap(map);
-    
-    //Then, for a number of steps
-    for(var i=0; i<numberOfSteps; i++){
-        //We apply our simulation rules!
-        map = doSimulationStep(map);
-    }
-    
-    //And we're done!
-    return map;
-}
-
-function initialiseMap(map)
-{
-  for (var x=0; x < worldWidth; x++)
-  {
-    map[x] = [];
-    for (var y=0; y < worldHeight; y++)
-    {
-      map[x][y] = 0;
-    }
-  }
-  
-  for (var x=0; x < worldWidth; x++)
-  {
-    for (var y=0; y < worldHeight; y++)
-    {
-      //Here we use our chanceToStartAlive variable
-      if (Math.random() < chanceToStartAlive)
-        //We're using numbers, not booleans, to decide if something is solid here. 0 = not solid
-        map[x][y] = 1;
-    }
-  }
-  
-  return map;
-}
 
 function doSimulationStep(map)
 {
@@ -156,29 +147,6 @@ function countAliveNeighbours(map, x, y)
     return count;
 }
 
-/*
-Extra credit assignment! Let's loop through the
-map and place treasure in the nooks and crannies.
-*/
-function placeTreasure()
-{
-  //How hidden does a spot need to be for treasure?
-  //I find 5 or 6 is good. 6 for very rare treasure.
-  var treasureHiddenLimit = 5;
-  for (var x=0; x < worldWidth; x++)
-  {
-    for (var y=0; y < worldHeight; y++)
-    {
-        if(world[x][y] == 0){
-          var nbs = countAliveNeighbours(world, x, y);
-          if(nbs >= treasureHiddenLimit){
-            world[x][y] = 2;
-          }
-        }
-    }
-  }   
-  redraw();
-}
 
 function redraw() 
 {
@@ -191,20 +159,30 @@ function redraw()
     for (var y=0; y < worldHeight; y++)
     {
 
-      //I chose some nice colours from colourlovers.com
-      if(world[x][y] == 0)
-          ctx.fillStyle="#3355AA";
-      //The colour of treasure!
+      if(world[x][y] == 1)
+        {
+        var colour = "#32CD32";
+         circle(x*tileWidth, y*tileWidth, 2, colour );
+        }
       else if(world[x][y] == 2)
-          ctx.fillStyle="F1D437";
-      else
-          ctx.fillStyle="#443333";
-        
-      ctx.fillRect(x*tileWidth, y*tileHeight,
-                    tileWidth, tileHeight);
-      
+        {
+        colour = "#00FFFF";
+        circle(x*tileWidth, y*tileWidth, 2, colour );
+        }
     }
   }
+}
+
+function circle( x, y, r, colour)
+  //Draw a filled circle
+{
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, 2*Math.PI, true);
+  ctx.fillStyle = colour;
+  ctx.fill();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = colour;
+  ctx.stroke();
 }
 
 // the game's canvas element
@@ -218,6 +196,6 @@ if (typeof console == "undefined") var console = { log: function() {} };
 // start running immediately
 onload();
 
-// export all function names to the global scope
+// export function names to the global scope
 window.iterate = iterate;
 window.recreate = recreate;

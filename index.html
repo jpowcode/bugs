@@ -1,28 +1,24 @@
 <head>
-  <script>
-    function iterate()
-{
-    world = doSimulationStep(world);
-    redraw();
-}
-</script>
+  
 </head>
 </body>
 <div>
   Cellular Automata Bugs<br>
    
-    <form>
-  <input type='button' onClick='recreate(this.form)' value='New World'>
-      <input type='button' onClick='iterate()' value='doSimulationStep()'>
+  <form>
+    <input type='button' onClick='recreate(this.form)' value='New World'>
+    <input type='button' onClick='iterate()' value='doSimulationStep'>  
+    <br>
+    Birth Limit: <input type="number" name="birthLimit" min="1" max="6" value="4">
       
-      <br>
-      Birth Limit: <input type="number" name="birthLimit" min="1" max="6" value="4">
-      
-      Death Limit: <input type="number" name="deathLimit" min="1" max="6" value="3"><br>
+    Death Limit: <input type="number" name="deathLimit" min="1" max="6" value="3"><br>
 
-      Initial Chance: <input type="number" name="initialChance" min="0" max="1" step="0.1" value="0.4">
+    Species 1: <input type="number" name="initspec1" min="0" max="1" step="0.1" value="0.2">
 
-      Number Of Steps: <input type="number" name="numSteps" min="0" max="6" value="2"></form><br><br>
+    Species 2: <input type="number" name="initspec2" min="0" max="1" step="0.1" value="0.2">
+
+    Number Of Steps: <input type="number" name="numSteps" min="0" max="6" value="2"></form><br><br>
+
 </div>
 
 <div><canvas id="gameCanvas"></canvas></div>
